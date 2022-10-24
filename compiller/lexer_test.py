@@ -26,6 +26,26 @@ class TestLexer(unittest.TestCase):
     tokens = lexer(f'"{str1}""{str2}"')
     
     self.assertTokens(tokens, [
-      Token(STRING, str1),
-      Token(STRING, str2)
+      Token(STRING, f'"{str1}"'),
+      Token(STRING, f'"{str2}"')
+    ])
+  
+  def test_char(self):
+    char1 = "'a'"
+    char2 = "'b'"
+    tokens = lexer(f'{char1}{char2}')
+    
+    self.assertTokens(tokens, [
+      Token(CHAR, char1),
+      Token(CHAR, char2)
+    ])
+    
+  def test_name(self):
+    name1 = 'some_name'
+    name2 = 'someName'
+    tokens = lexer(f'{name1} {name2}')
+    
+    self.assertTokens(tokens, [
+      Token(NAME, name1),
+      Token(NAME, name2)
     ])
