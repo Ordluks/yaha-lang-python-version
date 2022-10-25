@@ -14,8 +14,8 @@ INTEGER = 'integer'
 FLOAT = 'float'
 STRING = 'string'
 CHAR = 'char'
-NAME = 'name'
 FUNC_KW = 'func_kw'
+NAME = 'name'
 L_BRACET = 'l_bracet'
 R_BRACET = 'r_bracet'
 L_BRACE = 'l_brace'
@@ -29,10 +29,10 @@ lexic_rules = [
   LexicRule(FLOAT, r'[0-9]+\.[0-9]+'),
   LexicRule(STRING, r'"[^"]*"'),
   LexicRule(CHAR, r"'[^']'"),
-  LexicRule(NAME, r'[a-zA-Z_]+[a-zA-Z0-9_]+'),
   LexicRule(FUNC_KW, r'func'),
-  LexicRule(L_BRACET, r'('),
-  LexicRule(R_BRACET, r')'),
+  LexicRule(NAME, r'[a-zA-Z_]+[a-zA-Z0-9_]+'),
+  LexicRule(L_BRACET, r'\('),
+  LexicRule(R_BRACET, r'\)'),
   LexicRule(L_BRACE, r'{'),
   LexicRule(R_BRACE, r'}')
 ]

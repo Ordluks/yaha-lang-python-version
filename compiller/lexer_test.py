@@ -49,3 +49,7 @@ class TestLexer(unittest.TestCase):
       Token(NAME, name1),
       Token(NAME, name2)
     ])
+    
+  def test_kewords(self):
+    tokens = lexer('func')
+    self.assertTokens(tokens, [Token(FUNC_KW, 'func')])
