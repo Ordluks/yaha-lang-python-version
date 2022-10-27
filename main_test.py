@@ -1,4 +1,5 @@
 import unittest
+from read_test import *
 from compiller.lexer_test import *
 from compiller.compiller_test import *
 
