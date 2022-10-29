@@ -27,3 +27,10 @@ lexing_error = create_error_template('[LexerError] - ')
 
 def unexpected_char_error(char):
   lexing_error(f'Unexpected character "{char}"')
+
+
+parsing_error = create_error_template('[ParsingError] - ')
+
+
+def unexpected_syntax_error(found_text):
+  parsing_error(f'Unexpected syntax "{found_text}"')

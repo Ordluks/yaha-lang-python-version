@@ -9,6 +9,10 @@ class TestLexer(unittest.TestCase):
     vars_list2 =list(map(vars, tokens2))
     print('\n',vars_list1)
     self.assertTrue(vars_list1 == vars_list2)
+    
+  def test_error(self):
+    with self.assertRaises(SystemExit):
+      lexer('$$$')
   
   def test_int(self):
     int1 = '40'
