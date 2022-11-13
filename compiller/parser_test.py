@@ -16,9 +16,15 @@ class TestParser(unittest.TestCase):
     tokens = [
       Token(FUNC_KW, 'func'),
       Token(NAME, 'main'),
-      
+      Token(L_BRACE, '{'),
+      Token(DATA_KW, 'data'),
+      Token(NAME, 'msg'),
+      Token(EQUAL, '='),
+      Token(STRING, '"hello"'),
+      Token(R_BRACE, '}')
     ]
     
     ast = parser(tokens)
     print(vars(ast))
+    print(list(map(vars, ast.functions)))
     self.assertTrue(True)

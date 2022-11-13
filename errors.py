@@ -34,3 +34,8 @@ parsing_error = create_error_template('[ParsingError] - ')
 
 def unexpected_syntax_error(found_text):
   parsing_error(f'Unexpected syntax "{found_text}"')
+
+
+def unexpected_eof_error():
+  parsing_error('Unexpected end of line')
+  

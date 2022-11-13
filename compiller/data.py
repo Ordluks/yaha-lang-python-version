@@ -17,12 +17,14 @@ FLOAT = 'float'
 STRING = 'string'
 CHAR = 'char'
 FUNC_KW = 'func_kw'
+DATA_KW = 'data_kw'
 NAME = 'name'
 L_BRACET = 'l_bracet'
 R_BRACET = 'r_bracet'
 L_BRACE = 'l_brace'
 R_BRACE = 'r_brace'
 COMMA = 'comma'
+EQUAL = 'equal'
 
 
 lexic_rules = [
@@ -33,12 +35,14 @@ lexic_rules = [
   LexicRule(STRING, r'"[^"]*"'),
   LexicRule(CHAR, r"'[^']'"),
   LexicRule(FUNC_KW, r'func'),
+  LexicRule(DATA_KW, r'data'),
   LexicRule(NAME, r'[a-zA-Z_]+[a-zA-Z0-9_]+'),
   LexicRule(L_BRACET, r'\('),
   LexicRule(R_BRACET, r'\)'),
   LexicRule(L_BRACE, r'{'),
   LexicRule(R_BRACE, r'}'),
-  LexicRule(COMMA, r',')
+  LexicRule(COMMA, r','),
+  LexicRule(EQUAL, r'=')
 ]
 
 
@@ -76,24 +80,29 @@ class SyntaxRule:
 
 
 class ExpressionNode:
-  def __init__(self, tokens, nodes):
-    self.__tokens = tokens
-    self.construct(tokens, nodes)
-    
-  def __len__(self):
-    return len(self.__tokens)
-    
-  def construct(self, tokens, nodes):
-    pass
+  pass
 
 
 class RootNode(ExpressionNode):
-  def construct(self, tokens, nodes):
+  def __init__(self, nodes):
     self.functions = nodes
 
 
 class FunctionNode(ExpressionNode):
-  def construct(self)
+  def __init__(self, name, statement):
+    self.name = name,
+    self.statement = statement
+
+
+class StatementNode(ExpressionNode):
+  def __init__(self, nodes):
+    self.nodes = nodes
+
+
+class DataNode(ExpressionNode):
+  def __init__(self, name, node):
+    self.name = name
+    self.node = node
   
 
 syntax_rules = SyntaxRule(ExpressionNode) \
@@ -105,4 +114,4 @@ syntax_rules = SyntaxRule(ExpressionNode) \
   .expect(COMMA)
 })
 
-print(syntax_rules.rule_descriptor)
+# print(syntax_rules.rule_descriptor)

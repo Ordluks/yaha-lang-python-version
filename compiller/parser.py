@@ -1,54 +1,63 @@
 from compiller.data import *
-from errors import unexpected_syntax_error
+from errors import unexpected_syntax_error, unexpected_eof_error
 
 
 def parser(tokens):
-  def expect(token_types, token, tokens):
-    if token.token_type in token_types:
-      return True
+  def next_token():
+    if len(tokens) == 0:
+      unexpected_eof_error()
+    return tokens.pop(0)
+  
+  def expect(*types):
+    token = next_token()
+    if token.token_type in types:
+      return token
     else:
       unexpected_syntax_error(token.value)
   
-  def cases(cases_dict, token, tokens):
-    expect(cases_dict.keys())
-    parsing_case = cases_dict[token.token_type]
-    return parsing(parsing_case, tokens)
+  def where(func, *types):
+    token = expect(*types)
+    return func(token)
   
-  actions = {
-    EXPECT_ACTION_NAME: expect
-  }
+  def variants(cases):
+    token = next_token()
+    func = cases.get(token.token_type, None)
+    if func is None:
+      unexpected_syntax_error(token.value)
+    else:
+      return func(token.value)
   
-  def match_node(rule, tokens):
-    def matching(rule_descriptor, tokens, acc):
-      if len(rule_descriptor) == 0 or len(tokens) == 0:
-        return acc
-        
-      descriptor_copy = rule_descriptor.copy()
-      step = descriptor_copy.pop(0)
-      action_name = step[0]
-      types_for_action = step[1]
+  def parse_root():
+    functions_nodes = []
+  
+    while len(tokens) > 0:
+      node = where(parse_function, FUNC_KW)
+      functions_nodes.append(node)
       
-      tokens_copy = tokens.copy()
-      token = tokens_copy.pop(0)
-      
-      actions[action_name](types_for_action, token, tokens_copy)
-      
-      acc_copy = acc.copy()
-      acc_copy.append(token)
-      
-      return matching(descriptor_copy, tokens_copy, acc_copy)
+    return RootNode(functions_nodes)
+  
+  def parse_function(_):
+    name = expect(NAME)
+    statement = parse_statement()
+    return FunctionNode(name, statement)
+  
+  def parse_statement():
+    expect(L_BRACE)
+    parse_line()
+    expect(R_BRACE)
     
-    scaned_tokens = matching(rule.rule_descriptor, tokens, [])
-    print(list(map(vars, scaned_tokens)))
-    return rule.node_class(scaned_tokens)
-  
-  def parsing(rule, tokens, node_acc=None):
-    if len(tokens) == 0:
-      return node_acc
-
-    tokens_copy = tokens.copy()
-    node = match_node(rule, tokens)
+    return StatementNode([])
     
-    return parsing(rule, tokens_copy[len(node):], node)
-  
-  return parsing(syntax_rules, tokens)
+  def parse_line():
+    variants({
+      STRING: lambda t : ExpressionNode(),
+      DATA_KW: parse_data
+    })
+    
+  def parse_data(_):
+    name = expect(NAME)
+    expect(EQUAL)
+    return DataNode(name, parse_line())
+    
+    
+  return parse_root()
