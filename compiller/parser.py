@@ -26,6 +26,15 @@ def parser(tokens):
       unexpected_syntax_error(token.value)
     else:
       return func(token.value)
+      
+  def until(token_type, func):
+    nodes = []
+    while tokens[0].token_type != token_type:
+      nodes.append(func())
+    
+    next_token()
+    return nodes
+  
   
   def parse_root():
     functions_nodes = []
@@ -43,13 +52,11 @@ def parser(tokens):
   
   def parse_statement():
     expect(L_BRACE)
-    parse_line()
-    expect(R_BRACE)
-    
+    nodes = until(R_BRACE, parse_line)
     return StatementNode([])
     
   def parse_line():
-    variants({
+    return variants({
       STRING: lambda t : ExpressionNode(),
       DATA_KW: parse_data
     })
