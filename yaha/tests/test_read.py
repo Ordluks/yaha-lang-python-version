@@ -14,4 +14,3 @@ class TestRead(unittest.TestCase):
     self.assertEqual(content, result)
     
     os.remove(file_name)
-    
