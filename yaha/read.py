@@ -1,11 +1,14 @@
-import os
+import os, sys
 from compose import compose
-from errors import file_not_exists_error, file_reading_error
 
+
+def __show_error(msg):
+  print(msg)
+  sys.exit()
 
 def __check_path(path):
   if not os.path.exists(path):
-    file_not_exists_error(path)
+    __show_error(f'File not exists - {path}')
   else:
     return path
 
@@ -15,7 +18,7 @@ def __read_file(path):
     file = open(path, 'r')
     return file.read()
   except Exception:
-    file_not_exists_error(path)
+    __show_error(f'Can not read file - {path}')
 
 
 read = compose(__read_file, __check_path, os.path.abspath)

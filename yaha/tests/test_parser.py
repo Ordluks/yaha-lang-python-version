@@ -1,32 +1,30 @@
 import unittest
-from compiller.parser import parser
-from compiller.data import *
 from tests.testing_utils import dump_all
+from compiler.steps import combine_steps
+from compiler.parser import parser
+from compiler.data import *
 
 
 class TestParser(unittest.TestCase):
-  def test_error(self):
-    tokens = [
-      Token(INTEGER, '10')
-    ]
-    
-    with self.assertRaises(SystemExit):
-      parser(tokens)
-    
-  def test_func(self):
+  def test_function(self):
     tokens = [
       Token(FUNC_KW, 'func'),
       Token(NAME, 'main'),
+      Token(L_BRACET, '('),
+      Token(R_BRACET, ')'),
       Token(L_BRACE, '{'),
       Token(DATA_KW, 'data'),
-      Token(NAME, 'msg'),
+      Token(NAME, 'text'),
       Token(EQUAL, '='),
-      Token(STRING, '"hello"'),
+      Token(STRING, '"Hello"'),
+      Token(EOF, '\n'),
+      Token(DATA_KW, 'data'),
+      Token(NAME, 'text2'),
+      Token(EQUAL, '='),
+      Token(STRING, '"world"'),
       Token(R_BRACE, '}')
     ]
     
-    ast = parser(tokens)
+    ast = combine_steps(parser)(tokens)
     print(dump_all(ast))
-    #print(vars(ast))
-    #print(list(map(vars, ast.functions)))
-    self.assertTrue(True)
+    
