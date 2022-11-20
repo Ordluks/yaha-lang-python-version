@@ -1,5 +1,25 @@
 import re
-from compiler.data import lexic_rules, Token
+from compiler.data import *
+
+
+lexic_rules = [
+  LexicRule(EOF, r'\n'),
+  LexicRule(None, r'[\s\t]'),
+  LexicRule(None, r'\/\/.*$'),
+  LexicRule(FLOAT, r'[0-9]+\.[0-9]+'),
+  LexicRule(INTEGER, r'[0-9]+'),
+  LexicRule(STRING, r'"[^"]*"'),
+  LexicRule(CHAR, r"'[^']'"),
+  LexicRule(FUNC_KW, r'func'),
+  LexicRule(DATA_KW, r'data'),
+  LexicRule(NAME, r'[a-zA-Z_]+[a-zA-Z0-9_]+'),
+  LexicRule(L_BRACET, r'\('),
+  LexicRule(R_BRACET, r'\)'),
+  LexicRule(L_BRACE, r'{'),
+  LexicRule(R_BRACE, r'}'),
+  LexicRule(COMMA, r','),
+  LexicRule(EQUAL, r'=')
+]
 
 
 def lexer(source, raise_error):

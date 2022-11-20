@@ -28,24 +28,7 @@ COMMA = 'comma'
 EQUAL = 'equal'
 
 
-lexic_rules = [
-  LexicRule(None, r'[\s\t]'),
-  LexicRule(None, r'\/\/.*$'),
-  LexicRule(EOF, r'\n'),
-  LexicRule(INTEGER, r'[0-9]+'),
-  LexicRule(FLOAT, r'[0-9]+\.[0-9]+'),
-  LexicRule(STRING, r'"[^"]*"'),
-  LexicRule(CHAR, r"'[^']'"),
-  LexicRule(FUNC_KW, r'func'),
-  LexicRule(DATA_KW, r'data'),
-  LexicRule(NAME, r'[a-zA-Z_]+[a-zA-Z0-9_]+'),
-  LexicRule(L_BRACET, r'\('),
-  LexicRule(R_BRACET, r'\)'),
-  LexicRule(L_BRACE, r'{'),
-  LexicRule(R_BRACE, r'}'),
-  LexicRule(COMMA, r','),
-  LexicRule(EQUAL, r'=')
-]
+
 
 
 
